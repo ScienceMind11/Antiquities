@@ -12,6 +12,8 @@ import net.hollowed.antique.effect.BounceEffect;
 import net.hollowed.antique.enchantments.ModEnchantments;
 import net.hollowed.antique.items.ModItems;
 import net.hollowed.antique.networking.PedestalPacketPayload;
+import net.hollowed.antique.networking.SatchelPacketPayload;
+import net.hollowed.antique.networking.SatchelPacketReceiver;
 import net.hollowed.antique.util.ModLootTableModifiers;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -48,8 +50,12 @@ public class Antiquities implements ModInitializer {
 		ModLootTableModifiers.modifyLootTables();
 
 		PayloadTypeRegistry.playS2C().register(PedestalPacketPayload.ID, PedestalPacketPayload.CODEC);
+		PayloadTypeRegistry.playC2S().register(SatchelPacketPayload.ID, SatchelPacketPayload.CODEC);
+
+		SatchelPacketReceiver.registerServerPacket();
 
 		ModItems.initialize();
+		ModKeyBindings.initialize();
 
 		// Register the group.
 		Registry.register(Registries.ITEM_GROUP, ANTIQUITIES_GROUP_KEY, ANTIQUITIES_GROUP);

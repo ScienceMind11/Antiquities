@@ -4,19 +4,24 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.hollowed.antique.blocks.ModBlocks;
 import net.hollowed.antique.blocks.entities.ModBlockEntities;
 import net.hollowed.antique.blocks.entities.renderer.PedestalRenderer;
 import net.hollowed.antique.client.ModEntityLayers;
 import net.hollowed.antique.client.armor.models.AdventureArmor;
 import net.hollowed.antique.client.armor.models.ArmorStandAdventureArmor;
+import net.hollowed.antique.client.gui.SatchelOverlay;
 import net.hollowed.antique.client.pedestal.PedestalTooltipRenderer;
 import net.hollowed.antique.items.custom.SatchelItem;
 import net.hollowed.antique.networking.PedestalPacketReceiver;
+import net.hollowed.antique.networking.SatchelPacketPayload;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.entity.EquipmentSlot;
@@ -64,5 +69,20 @@ public class AntiquitiesClient implements ClientModInitializer {
          */
         EntityModelLayerRegistry.registerModelLayer(ModEntityLayers.ADVENTURE_ARMOR, AdventureArmor::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(ModEntityLayers.ARMOR_STAND_ADVENTURE_ARMOR, ArmorStandAdventureArmor::getTexturedModelData);
+
+        /*
+            Satchel Overlay
+         */
+        HudRenderCallback.EVENT.register(new SatchelOverlay());
+
+        /*
+            Right Click Listener
+         */
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if(ModKeyBindings.swapStacks.wasPressed() && ModKeyBindings.showSatchel.wasPressed()) {
+                ClientPlayNetworking.send(new SatchelPacketPayload(true));
+            }
+        });
+
     }
 }

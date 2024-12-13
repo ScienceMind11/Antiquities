@@ -1,6 +1,8 @@
 package net.hollowed.antique.items;
 
 import net.hollowed.antique.Antiquities;
+import net.hollowed.antique.component.ModComponents;
+import net.hollowed.antique.component.SatchelInventoryComponent;
 import net.hollowed.antique.items.custom.FurBootsItem;
 import net.hollowed.antique.items.custom.NetheritePauldronsItem;
 import net.hollowed.antique.items.custom.SatchelItem;
@@ -25,7 +27,7 @@ public class ModItems {
 
     public static final Item SATCHEL = registerItem("satchel", new SatchelItem(ModArmorMaterials.ADVENTURE_BASIC, EquipmentType.LEGGINGS, new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Antiquities.MOD_ID, "satchel")))
-            .component(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT)
+            .component(ModComponents.SATCHEL_INVENTORY, new SatchelInventoryComponent(new ItemStack[8]))
             .maxCount(1).fireproof()
     ));
 

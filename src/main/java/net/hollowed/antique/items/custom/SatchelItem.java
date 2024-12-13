@@ -11,7 +11,7 @@ import net.minecraft.item.equipment.EquipmentType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SatchelItem extends BundleItem {
+public class SatchelItem extends Item {
 
     public SatchelItem(ArmorMaterial material, EquipmentType type, Item.Settings settings) {
         super(material.applySettings(settings, type));
